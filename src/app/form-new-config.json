@@ -1,0 +1,678 @@
+{
+    "title": "BLADE ALSEAL COATING THICKNESS INSPECTION",
+    "formId": "WIF-BKT-08",
+    "revision": "Rev1.0",
+    "sections": [
+      {
+        "title": "Basic Information",
+        "fields": [
+            { 
+              "id": "jobNumber", 
+              "label": "Job #", 
+              "type": "text", 
+              "required": true,
+              "validationRules": {
+                "pattern": "^[A-Z0-9-]+$",
+                "minLength": 3,
+                "maxLength": 20
+              },
+              "analysisRules": {
+                "critical": true,
+                "impact": "high"
+              }
+            },
+            { 
+              "id": "customer", 
+              "label": "Customer", 
+              "type": "text", 
+              "required": true,
+              "validationRules": {
+                "minLength": 2,
+                "maxLength": 50
+              },
+              "analysisRules": {
+                "critical": true,
+                "impact": "high"
+              }
+            },
+            { 
+              "id": "frame", 
+              "label": "Frame", 
+              "type": "text", 
+              "required": true,
+              "validationRules": {
+                "pattern": "^[A-Z0-9-]+$",
+                "minLength": 2,
+                "maxLength": 20
+              },
+              "analysisRules": {
+                "critical": true,
+                "impact": "high"
+              }
+            },
+            { 
+              "id": "component", 
+              "label": "Component", 
+              "type": "text", 
+              "required": true,
+              "validationRules": {
+                "minLength": 2,
+                "maxLength": 50
+              },
+              "analysisRules": {
+                "critical": true,
+                "impact": "high"
+              }
+            },
+            { 
+              "id": "partNumber", 
+              "label": "Part No.", 
+              "type": "text", 
+              "required": true,
+              "validationRules": {
+                "pattern": "^[A-Z0-9-]+$",
+                "minLength": 3,
+                "maxLength": 20
+              },
+              "analysisRules": {
+                "critical": true,
+                "impact": "high"
+              }
+            },
+            { 
+              "id": "quantity", 
+              "label": "Quantity", 
+              "type": "number", 
+              "required": true,
+              "validationRules": {
+                "min": 1,
+                "max": 1000
+              },
+              "analysisRules": {
+                "critical": true,
+                "impact": "medium"
+              }
+            },
+            { 
+              "id": "operator", 
+              "label": "Operator", 
+              "type": "text", 
+              "required": true,
+              "validationRules": {
+                "minLength": 2,
+                "maxLength": 50
+              },
+              "analysisRules": {
+                "critical": true,
+                "impact": "high"
+              }
+            },
+            { 
+              "id": "date", 
+              "label": "Date", 
+              "type": "date", 
+              "required": true,
+              "validationRules": {
+                "minDate": "2020-01-01",
+                "maxDate": "2100-12-31"
+              },
+              "analysisRules": {
+                "critical": true,
+                "impact": "high"
+              }
+            },
+            { 
+              "id": "instrumentId", 
+              "label": "Instrument ID#", 
+              "type": "text", 
+              "required": true,
+              "validationRules": {
+                "pattern": "^[A-Z0-9-]+$",
+                "minLength": 3,
+                "maxLength": 20
+              },
+              "analysisRules": {
+                "critical": true,
+                "impact": "high"
+              }
+            },
+            { 
+              "id": "calibrationDueDate", 
+              "label": "Calibration Due Date", 
+              "type": "date", 
+              "required": true,
+              "validationRules": {
+                "minDate": "2020-01-01",
+                "maxDate": "2100-12-31"
+              },
+              "analysisRules": {
+                "critical": true,
+                "impact": "high"
+              }
+            }
+        ]
+      },
+      {
+        "title": "Coating Thickness Measurements",
+        "fields": [
+          {
+            "id": "bladeMeasurements",
+            "label": "Blade Measurements",
+            "type": "grouped-table",
+            "required": true,
+            "rows": 90,
+            "headerRows": [
+              [
+                { "label": "", "colspan": 3 },
+                { "label": "Visual", "rowspan":2 ,"className": "text-center" },
+                { "label": "THICKNESS INSPECTION (Inches)", "colspan": 16, "className": "text-center" }
+              ],
+              [
+                { "label": "", "colspan": 4 },
+                { "label": "D1", "className": "text-center" }, { "label": "D2", "className": "text-center" }, { "label": "D3", "className": "text-center" }, { "label": "D4", "className": "text-center" },
+                { "label": "D5", "className": "text-center" }, { "label": "D6" , "className": "text-center"}, { "label": "D7" , "className": "text-center"}, { "label": "D8" , "className": "text-center"},
+                { "label": "T1", "className": "text-center" }, { "label": "T2" , "className": "text-center"}, { "label": "T3", "className": "text-center" }, { "label": "T4" , "className": "text-center"},
+                { "label": "T5" , "className": "text-center"}, { "label": "E1" , "className": "text-center"}, { "label": "E2" , "className": "text-center"}, { "label": "E3", "className": "text-center" }
+              ],
+              [
+                { "label": "Blade #", "className": "text-center" },
+                { "label": "Part No.", "className": "text-center" },
+                { "label": "Serial #", "className": "text-center" },
+                { "label": "Pass/Fail", "className": "text-center" },
+                { "label": "", "colspan": 16 }
+              ]
+            ],
+            "dataColumns": [
+              { 
+                "id": "bladeNo", 
+                "type": "number", 
+                "readonly": true,
+                "validationRules": {
+                  "min": 1,
+                  "max": 90
+                },
+                "analysisRules": {
+                  "critical": true,
+                  "impact": "high"
+                }
+              },
+              { 
+                "id": "partNo", 
+                "type": "text",
+                "validationRules": {
+                  "pattern": "^[A-Z0-9-]+$",
+                  "minLength": 3,
+                  "maxLength": 20
+                },
+                "analysisRules": {
+                  "critical": true,
+                  "impact": "high"
+                }
+              },
+              { 
+                "id": "serialNo", 
+                "type": "text",
+                "validationRules": {
+                  "pattern": "^[A-Z0-9-]+$",
+                  "minLength": 3,
+                  "maxLength": 20
+                },
+                "analysisRules": {
+                  "critical": true,
+                  "impact": "high"
+                }
+              },
+              { 
+                "id": "passFail", 
+                "type": "dropdown", 
+                "placeholder": "P/F", 
+                "options": [
+                  {"value": "Pass", "label": "Pass"}, 
+                  {"value": "Fail", "label": "Fail"}
+                ],
+                "validationRules": {
+                  "required": true
+                },
+                "analysisRules": {
+                  "critical": true,
+                  "impact": "high",
+                  "decisionImpact": {
+                    "Pass": "continue",
+                    "Fail": "reject"
+                  }
+                }
+              },
+              { 
+                "id": "d1", 
+                "type": "number", 
+                "step": "0.001",
+                "validationRules": {
+                  "min": 0.000,
+                  "max": 0.100,
+                  "nominal": 0.050
+                },
+                "analysisRules": {
+                  "critical": true,
+                  "impact": "high",
+                  "tolerance": {
+                    "min": 0.040,
+                    "max": 0.060,
+                    "repairMin": 0.030,
+                    "repairMax": 0.070
+                  }
+                }
+              },
+              { 
+                "id": "d2", 
+                "type": "number", 
+                "step": "0.001",
+                "validationRules": {
+                  "min": 0.000,
+                  "max": 0.100,
+                  "nominal": 0.050
+                },
+                "analysisRules": {
+                  "critical": true,
+                  "impact": "high",
+                  "tolerance": {
+                    "min": 0.040,
+                    "max": 0.060,
+                    "repairMin": 0.030,
+                    "repairMax": 0.070
+                  }
+                }
+              },
+              { 
+                "id": "d3", 
+                "type": "number", 
+                "step": "0.001",
+                "validationRules": {
+                  "min": 0.000,
+                  "max": 0.100,
+                  "nominal": 0.050
+                },
+                "analysisRules": {
+                  "critical": true,
+                  "impact": "high",
+                  "tolerance": {
+                    "min": 0.040,
+                    "max": 0.060,
+                    "repairMin": 0.030,
+                    "repairMax": 0.070
+                  }
+                }
+              },
+              { 
+                "id": "d4", 
+                "type": "number", 
+                "step": "0.001",
+                "validationRules": {
+                  "min": 0.000,
+                  "max": 0.100,
+                  "nominal": 0.050
+                },
+                "analysisRules": {
+                  "critical": true,
+                  "impact": "high",
+                  "tolerance": {
+                    "min": 0.040,
+                    "max": 0.060,
+                    "repairMin": 0.030,
+                    "repairMax": 0.070
+                  }
+                }
+              },
+              { 
+                "id": "d5", 
+                "type": "number", 
+                "step": "0.001",
+                "validationRules": {
+                  "min": 0.000,
+                  "max": 0.100,
+                  "nominal": 0.050
+                },
+                "analysisRules": {
+                  "critical": true,
+                  "impact": "high",
+                  "tolerance": {
+                    "min": 0.040,
+                    "max": 0.060,
+                    "repairMin": 0.030,
+                    "repairMax": 0.070
+                  }
+                }
+              },
+              { 
+                "id": "d6", 
+                "type": "number", 
+                "step": "0.001",
+                "validationRules": {
+                  "min": 0.000,
+                  "max": 0.100,
+                  "nominal": 0.050
+                },
+                "analysisRules": {
+                  "critical": true,
+                  "impact": "high",
+                  "tolerance": {
+                    "min": 0.040,
+                    "max": 0.060,
+                    "repairMin": 0.030,
+                    "repairMax": 0.070
+                  }
+                }
+              },
+              { 
+                "id": "d7", 
+                "type": "number", 
+                "step": "0.001",
+                "validationRules": {
+                  "min": 0.000,
+                  "max": 0.100,
+                  "nominal": 0.050
+                },
+                "analysisRules": {
+                  "critical": true,
+                  "impact": "high",
+                  "tolerance": {
+                    "min": 0.040,
+                    "max": 0.060,
+                    "repairMin": 0.030,
+                    "repairMax": 0.070
+                  }
+                }
+              },
+              { 
+                "id": "d8", 
+                "type": "number", 
+                "step": "0.001",
+                "validationRules": {
+                  "min": 0.000,
+                  "max": 0.100,
+                  "nominal": 0.050
+                },
+                "analysisRules": {
+                  "critical": true,
+                  "impact": "high",
+                  "tolerance": {
+                    "min": 0.040,
+                    "max": 0.060,
+                    "repairMin": 0.030,
+                    "repairMax": 0.070
+                  }
+                }
+              },
+              { 
+                "id": "t1", 
+                "type": "number", 
+                "step": "0.001",
+                "validationRules": {
+                  "min": 0.000,
+                  "max": 0.100,
+                  "nominal": 0.050
+                },
+                "analysisRules": {
+                  "critical": true,
+                  "impact": "high",
+                  "tolerance": {
+                    "min": 0.040,
+                    "max": 0.060,
+                    "repairMin": 0.030,
+                    "repairMax": 0.070
+                  }
+                }
+              },
+              { 
+                "id": "t2", 
+                "type": "number", 
+                "step": "0.001",
+                "validationRules": {
+                  "min": 0.000,
+                  "max": 0.100,
+                  "nominal": 0.050
+                },
+                "analysisRules": {
+                  "critical": true,
+                  "impact": "high",
+                  "tolerance": {
+                    "min": 0.040,
+                    "max": 0.060,
+                    "repairMin": 0.030,
+                    "repairMax": 0.070
+                  }
+                }
+              },
+              { 
+                "id": "t3", 
+                "type": "number", 
+                "step": "0.001",
+                "validationRules": {
+                  "min": 0.000,
+                  "max": 0.100,
+                  "nominal": 0.050
+                },
+                "analysisRules": {
+                  "critical": true,
+                  "impact": "high",
+                  "tolerance": {
+                    "min": 0.040,
+                    "max": 0.060,
+                    "repairMin": 0.030,
+                    "repairMax": 0.070
+                  }
+                }
+              },
+              { 
+                "id": "t4", 
+                "type": "number", 
+                "step": "0.001",
+                "validationRules": {
+                  "min": 0.000,
+                  "max": 0.100,
+                  "nominal": 0.050
+                },
+                "analysisRules": {
+                  "critical": true,
+                  "impact": "high",
+                  "tolerance": {
+                    "min": 0.040,
+                    "max": 0.060,
+                    "repairMin": 0.030,
+                    "repairMax": 0.070
+                  }
+                }
+              },
+              { 
+                "id": "t5", 
+                "type": "number", 
+                "step": "0.001",
+                "validationRules": {
+                  "min": 0.000,
+                  "max": 0.100,
+                  "nominal": 0.050
+                },
+                "analysisRules": {
+                  "critical": true,
+                  "impact": "high",
+                  "tolerance": {
+                    "min": 0.040,
+                    "max": 0.060,
+                    "repairMin": 0.030,
+                    "repairMax": 0.070
+                  }
+                }
+              },
+              { 
+                "id": "e1", 
+                "type": "number", 
+                "step": "0.001",
+                "validationRules": {
+                  "min": 0.000,
+                  "max": 0.100,
+                  "nominal": 0.050
+                },
+                "analysisRules": {
+                  "critical": true,
+                  "impact": "high",
+                  "tolerance": {
+                    "min": 0.040,
+                    "max": 0.060,
+                    "repairMin": 0.030,
+                    "repairMax": 0.070
+                  }
+                }
+              },
+              { 
+                "id": "e2", 
+                "type": "number", 
+                "step": "0.001",
+                "validationRules": {
+                  "min": 0.000,
+                  "max": 0.100,
+                  "nominal": 0.050
+                },
+                "analysisRules": {
+                  "critical": true,
+                  "impact": "high",
+                  "tolerance": {
+                    "min": 0.040,
+                    "max": 0.060,
+                    "repairMin": 0.030,
+                    "repairMax": 0.070
+                  }
+                }
+              },
+              { 
+                "id": "e3", 
+                "type": "number", 
+                "step": "0.001",
+                "validationRules": {
+                  "min": 0.000,
+                  "max": 0.100,
+                  "nominal": 0.050
+                },
+                "analysisRules": {
+                  "critical": true,
+                  "impact": "high",
+                  "tolerance": {
+                    "min": 0.040,
+                    "max": 0.060,
+                    "repairMin": 0.030,
+                    "repairMax": 0.070
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Verification",
+        "fields": [
+          { 
+            "id": "inspectedBy", 
+            "label": "Inspected By", 
+            "type": "text", 
+            "required": true,
+            "validationRules": {
+              "minLength": 2,
+              "maxLength": 50
+            },
+            "analysisRules": {
+              "critical": true,
+              "impact": "high"
+            }
+          },
+          { 
+            "id": "reviewedBy", 
+            "label": "Reviewed By", 
+            "type": "text", 
+            "required": true,
+            "validationRules": {
+              "minLength": 2,
+              "maxLength": 50
+            },
+            "analysisRules": {
+              "critical": true,
+              "impact": "high"
+            }
+          }
+        ]
+      }
+    ],
+    "businessRules": {
+      "tolerances": {
+        "d1": { "min": 0.040, "max": 0.060, "nominal": 0.050 },
+        "d2": { "min": 0.040, "max": 0.060, "nominal": 0.050 },
+        "d3": { "min": 0.040, "max": 0.060, "nominal": 0.050 },
+        "d4": { "min": 0.040, "max": 0.060, "nominal": 0.050 },
+        "d5": { "min": 0.040, "max": 0.060, "nominal": 0.050 },
+        "d6": { "min": 0.040, "max": 0.060, "nominal": 0.050 },
+        "d7": { "min": 0.040, "max": 0.060, "nominal": 0.050 },
+        "d8": { "min": 0.040, "max": 0.060, "nominal": 0.050 },
+        "t1": { "min": 0.040, "max": 0.060, "nominal": 0.050 },
+        "t2": { "min": 0.040, "max": 0.060, "nominal": 0.050 },
+        "t3": { "min": 0.040, "max": 0.060, "nominal": 0.050 },
+        "t4": { "min": 0.040, "max": 0.060, "nominal": 0.050 },
+        "t5": { "min": 0.040, "max": 0.060, "nominal": 0.050 },
+        "e1": { "min": 0.040, "max": 0.060, "nominal": 0.050 },
+        "e2": { "min": 0.040, "max": 0.060, "nominal": 0.050 },
+        "e3": { "min": 0.040, "max": 0.060, "nominal": 0.050 }
+      },
+      "decisionCriteria": {
+        "repair": {
+          "description": "Minor deviations within repair limits",
+          "conditions": [
+            "Any measurement within repair limits (0.030-0.070 inches)",
+            "Maximum 3 measurements outside tolerance but within repair limits",
+            "No critical measurements below 0.030 inches"
+          ]
+        },
+        "replace": {
+          "description": "Significant wear but repairable",
+          "conditions": [
+            "Any measurement below 0.030 inches or above 0.070 inches",
+            "More than 3 but less than 10 measurements outside tolerance",
+            "No critical measurements below 0.020 inches"
+          ]
+        },
+        "reject": {
+          "description": "Beyond repair limits",
+          "conditions": [
+            "Any measurement below 0.020 inches or above 0.080 inches",
+            "More than 10 measurements outside tolerance",
+            "Any critical measurement below 0.020 inches",
+            "Visual inspection indicates severe damage"
+          ]
+        },
+        "okay": {
+          "description": "All measurements within acceptable limits",
+          "conditions": [
+            "All measurements within tolerance (0.040-0.060 inches)",
+            "No measurements outside tolerance",
+            "Visual inspection passes"
+          ]
+        }
+      },
+      "analysisRules": {
+        "criticalFields": [
+          "jobNumber",
+          "partNumber",
+          "instrumentId",
+          "passFail"
+        ],
+        "measurementRules": {
+          "maxOutOfTolerance": 3,
+          "maxRepairLimit": 10,
+          "criticalMeasurements": ["d1", "d3", "t1", "e1"],
+          "visualInspectionWeight": 0.3
+        },
+        "confidenceThresholds": {
+          "okay": 0.95,
+          "repair": 0.85,
+          "replace": 0.75,
+          "reject": 0.65
+        }
+      }
+    }
+}

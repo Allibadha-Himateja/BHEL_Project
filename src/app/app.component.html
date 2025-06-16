@@ -1,0 +1,32 @@
+<div class="app-container">
+  <header class="app-header">
+    <div class="header-content">
+      <h1>{{ title }}</h1>
+      <p>FR9 Stage 1 Shroud Dimensional Inspection System</p>
+    </div>
+  </header>
+
+  <main class="main-content">
+    <div *ngIf="!showResults">
+      <app-dynamic-form 
+        [config]="formConfig" 
+        (formSubmit)="onFormSubmit($event)">
+      </app-dynamic-form>
+    </div>
+
+    <div *ngIf="showResults && inspectionResult" id="inspection-results">
+      <app-inspection-results [result]="inspectionResult"></app-inspection-results>
+      
+      <div class="back-to-form">
+        <button class="btn btn-outline" (click)="resetForm()">
+          ← Back to Form
+        </button>
+      </div>
+    </div>
+  </main>
+
+  <footer class="app-footer">
+    <p>&copy; 2024 BHEL Dynamic Forms System. All rights reserved.</p>
+  </footer>
+</div>
+

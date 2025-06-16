@@ -1,0 +1,98 @@
+<div class="results-container">
+  <div class="results-header">
+    <h2>Inspection Analysis Results</h2>
+  </div>
+
+  <div class="decision-card" [ngClass]="getDecisionClass()">
+    <div class="decision-header">
+      <span class="decision-icon">{{ getDecisionIcon() }}</span>
+      <h3>{{ result.decision.toUpperCase() }}</h3>
+      <div class="confidence-badge" [style.background-color]="getConfidenceColor()">
+        {{ result.confidence }}% Confidence
+      </div>
+    </div>
+    
+    <div class="decision-summary">
+      <p>{{ result.summary }}</p>
+    </div>
+  </div>
+
+  <div class="measurements-summary">
+    <h3>Measurement Analysis</h3>
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-number">{{ result.measurements.total }}</div>
+        <div class="stat-label">Total Measurements</div>
+      </div>
+      <div class="stat-card success">
+        <div class="stat-number">{{ result.measurements.withinTolerance }}</div>
+        <div class="stat-label">Within Tolerance</div>
+      </div>
+      <div class="stat-card warning">
+        <div class="stat-number">{{ result.measurements.outsideTolerance }}</div>
+        <div class="stat-label">Outside Tolerance</div>
+      </div>
+      <div class="stat-card danger">
+        <div class="stat-number">{{ result.measurements.criticalDeviations }}</div>
+        <div class="stat-label">Critical Deviations</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="reasons-section">
+    <h3>Analysis Details</h3>
+    <div class="reasons-list">
+      <div *ngFor="let reason of result.reasons" class="reason-item">
+        <span class="reason-bullet">•</span>
+        <span class="reason-text">{{ reason }}</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="recommendations">
+    <h3>Recommendations</h3>
+    <div class="recommendation-content" [ngSwitch]="result.decision">
+      
+      <div *ngSwitchCase="'repair'" class="recommendation repair">
+        <h4>🔧 Repair Recommended</h4>
+        <ul>
+          <li>Component can be restored to acceptable condition</li>
+          <li>Minor adjustments or refinishing may be required</li>
+          <li>Re-inspect after repair completion</li>
+          <li>Document all repair procedures</li>
+        </ul>
+      </div>
+
+      <div *ngSwitchCase="'replace'" class="recommendation replace">
+        <h4>🔄 Replacement Recommended</h4>
+        <ul>
+          <li>Component shows significant wear beyond repair limits</li>
+          <li>Replacement will ensure optimal performance</li>
+          <li>Consider upgrading to improved specifications</li>
+          <li>Dispose of old component according to environmental guidelines</li>
+        </ul>
+      </div>
+
+      <div *ngSwitchCase="'reject'" class="recommendation reject">
+        <h4>❌ Component Rejected</h4>
+        <ul>
+          <li>Critical dimensions are beyond acceptable limits</li>
+          <li>Component poses safety risks if used</li>
+          <li>Immediate replacement required</li>
+          <li>Investigate root cause of excessive wear</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="action-buttons">
+    <button class="btn btn-primary" onclick="window.print()">
+      📄 Print Report
+    </button>
+    <button class="btn btn-secondary" onclick="window.location.reload()">
+      🔄 New Inspection
+    </button>
+  </div>
+</div>
+
