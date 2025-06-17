@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DynamicFormComponent } from './dynamic-form/dynamic-form.component';
 import { InspectionResultsComponent } from './inspection-results/inspection-results.component';
-import { InspectionService } from './services/inspection.service';
+import { EnhancedInspectionService } from './services/enhanced-inspection.service';
 import { FormConfig, FormData, InspectionResult } from './models/form.models';
 import formConfigData from './form-new-config.json';
 
@@ -18,8 +18,10 @@ export class AppComponent implements OnInit {
   formConfig!: FormConfig;
   inspectionResult: InspectionResult | null = null;
   showResults = false;
+  isSubmitting = false;
+  submitError: string | null = null;
 
-  constructor(private inspectionService: InspectionService) {}
+  constructor(private enhancedInspectionService: EnhancedInspectionService) {}
 
   ngOnInit() {
     this.formConfig = formConfigData as FormConfig;
@@ -28,23 +30,47 @@ export class AppComponent implements OnInit {
   onFormSubmit(formData: FormData) {
     console.log('Form submitted:', formData);
     
-    // Analyze the inspection data
-    this.inspectionResult = this.inspectionService.analyzeInspection(formData, this.formConfig);
-    this.showResults = true;
+    // Validate form data
+    const validation = this.enhancedInspectionService.validateFormData(formData);
+    if (!validation.isValid) {
+      alert('Please fix the following errors:\n' + validation.errors.join('\n'));
+      return;
+    }
+
+    this.isSubmitting = true;
+    this.submitError = null;
     
-    // Scroll to results
-    setTimeout(() => {
-      const resultsElement = document.getElementById('inspection-results');
-      if (resultsElement) {
-        resultsElement.scrollIntoView({ behavior: 'smooth' });
+    // Submit to backend with fallback to local analysis
+    this.enhancedInspectionService.submitInspection(formData, this.formConfig).subscribe({
+      next: (result) => {
+        console.log('Analysis result:', result);
+        this.inspectionResult = result;
+        this.showResults = true;
+        this.isSubmitting = false;
+        
+        // Scroll to results
+        setTimeout(() => {
+          const resultsElement = document.getElementById('inspection-results');
+          if (resultsElement) {
+            resultsElement.scrollIntoView({ behavior: 'smooth' });
+          }
+        }, 100);
+      },
+      error: (error) => {
+        console.error('Submission failed:', error);
+        this.submitError = error.message || 'Failed to submit inspection. Please try again.';
+        this.isSubmitting = false;
+        
+        // Show error to user
+        alert(this.submitError);
       }
-    }, 100);
+    });
   }
 
   resetForm() {
     this.showResults = false;
     this.inspectionResult = null;
+    this.submitError = null;
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 }
-
