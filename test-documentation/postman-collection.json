@@ -1,0 +1,476 @@
+{
+  "info": {
+    "name": "BHEL Inspection API Test Collection",
+    "description": "Comprehensive test collection for BHEL Inspection API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://localhost:7000/api",
+      "type": "string"
+    },
+    {
+      "key": "inspectionId",
+      "value": "1",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Inspection Forms",
+      "item": [
+        {
+          "name": "Get All Inspections",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/inspectionforms",
+              "host": ["{{baseUrl}}"],
+              "path": ["inspectionforms"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Inspections with Pagination",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/inspectionforms?page=1&pageSize=5",
+              "host": ["{{baseUrl}}"],
+              "path": ["inspectionforms"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "pageSize",
+                  "value": "5"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Inspections with Filters",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/inspectionforms?jobNumber=JOB-001&customer=BHEL&status=1",
+              "host": ["{{baseUrl}}"],
+              "path": ["inspectionforms"],
+              "query": [
+                {
+                  "key": "jobNumber",
+                  "value": "JOB-001"
+                },
+                {
+                  "key": "customer",
+                  "value": "BHEL"
+                },
+                {
+                  "key": "status",
+                  "value": "1"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Specific Inspection",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/inspectionforms/{{inspectionId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["inspectionforms", "{{inspectionId}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Valid Inspection",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 201\", function () {",
+                  "    pm.response.to.have.status(201);",
+                  "});",
+                  "",
+                  "pm.test(\"Response has inspection ID\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property('id');",
+                  "    pm.collectionVariables.set('inspectionId', jsonData.id);",
+                  "});",
+                  "",
+                  "pm.test(\"Response has analysis\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property('inspectionAnalysis');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"formId\": \"WIF-BKT-08\",\n  \"revision\": \"Rev1.0\",\n  \"jobNumber\": \"JOB-TEST-001\",\n  \"customer\": \"BHEL Test Customer\",\n  \"frame\": \"FR9-TEST\",\n  \"component\": \"Stage 1 Shroud\",\n  \"partNumber\": \"PART-TEST-001\",\n  \"quantity\": 90,\n  \"operator\": \"John Doe\",\n  \"inspectionDate\": \"2024-01-15T00:00:00Z\",\n  \"instrumentId\": \"INST-001\",\n  \"calibrationDueDate\": \"2024-12-31T00:00:00Z\",\n  \"inspectedBy\": \"Inspector Smith\",\n  \"reviewedBy\": \"Reviewer Jones\",\n  \"bladeMeasurements\": [\n    {\n      \"bladeNumber\": 1,\n      \"partNumber\": \"BLADE-001\",\n      \"serialNumber\": \"SN-001\",\n      \"passFail\": 1,\n      \"d1\": 0.045,\n      \"d2\": 0.048,\n      \"d3\": 0.052,\n      \"d4\": 0.047,\n      \"d5\": 0.049,\n      \"d6\": 0.051,\n      \"d7\": 0.046,\n      \"d8\": 0.050,\n      \"t1\": 0.048,\n      \"t2\": 0.049,\n      \"t3\": 0.047,\n      \"t4\": 0.051,\n      \"t5\": 0.048,\n      \"e1\": 0.049,\n      \"e2\": 0.050,\n      \"e3\": 0.048\n    },\n    {\n      \"bladeNumber\": 2,\n      \"partNumber\": \"BLADE-002\",\n      \"serialNumber\": \"SN-002\",\n      \"passFail\": 2,\n      \"d1\": 0.035,\n      \"d2\": 0.038,\n      \"d3\": 0.032,\n      \"d4\": 0.037,\n      \"d5\": 0.039,\n      \"d6\": 0.031,\n      \"d7\": 0.036,\n      \"d8\": 0.030,\n      \"t1\": 0.038,\n      \"t2\": 0.039,\n      \"t3\": 0.037,\n      \"t4\": 0.031,\n      \"t5\": 0.038,\n      \"e1\": 0.039,\n      \"e2\": 0.030,\n      \"e3\": 0.038\n    }\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/inspectionforms",
+              "host": ["{{baseUrl}}"],
+              "path": ["inspectionforms"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Inspection - Missing Required Fields",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 400\", function () {",
+                  "    pm.response.to.have.status(400);",
+                  "});",
+                  "",
+                  "pm.test(\"Response contains validation errors\", function () {",
+                  "    var responseText = pm.response.text();",
+                  "    pm.expect(responseText).to.include('required');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"formId\": \"WIF-BKT-08\",\n  \"revision\": \"Rev1.0\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/inspectionforms",
+              "host": ["{{baseUrl}}"],
+              "path": ["inspectionforms"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Inspection - Invalid Measurements",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 400\", function () {",
+                  "    pm.response.to.have.status(400);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"formId\": \"WIF-BKT-08\",\n  \"revision\": \"Rev1.0\",\n  \"jobNumber\": \"JOB-TEST-002\",\n  \"customer\": \"BHEL Test Customer\",\n  \"frame\": \"FR9-TEST\",\n  \"component\": \"Stage 1 Shroud\",\n  \"partNumber\": \"PART-TEST-002\",\n  \"quantity\": 90,\n  \"operator\": \"John Doe\",\n  \"inspectionDate\": \"2024-01-15T00:00:00Z\",\n  \"instrumentId\": \"INST-001\",\n  \"calibrationDueDate\": \"2024-12-31T00:00:00Z\",\n  \"inspectedBy\": \"Inspector Smith\",\n  \"reviewedBy\": \"Reviewer Jones\",\n  \"bladeMeasurements\": [\n    {\n      \"bladeNumber\": 1,\n      \"partNumber\": \"BLADE-001\",\n      \"serialNumber\": \"SN-001\",\n      \"passFail\": 1,\n      \"d1\": -0.001,\n      \"d2\": 0.150\n    }\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/inspectionforms",
+              "host": ["{{baseUrl}}"],
+              "path": ["inspectionforms"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Inspection",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 204\", function () {",
+                  "    pm.response.to.have.status(204);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"jobNumber\": \"JOB-UPDATED-001\",\n  \"customer\": \"Updated Customer Name\",\n  \"status\": 1\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/inspectionforms/{{inspectionId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["inspectionforms", "{{inspectionId}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Analyze Inspection",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"Response has analysis data\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property('decision');",
+                  "    pm.expect(jsonData).to.have.property('confidence');",
+                  "    pm.expect(jsonData).to.have.property('summary');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/inspectionforms/{{inspectionId}}/analyze",
+              "host": ["{{baseUrl}}"],
+              "path": ["inspectionforms", "{{inspectionId}}", "analyze"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Submit Inspection",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 204\", function () {",
+                  "    pm.response.to.have.status(204);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/inspectionforms/{{inspectionId}}/submit",
+              "host": ["{{baseUrl}}"],
+              "path": ["inspectionforms", "{{inspectionId}}", "submit"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Inspection",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 204\", function () {",
+                  "    pm.response.to.have.status(204);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/inspectionforms/{{inspectionId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["inspectionforms", "{{inspectionId}}"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Error Scenarios",
+      "item": [
+        {
+          "name": "Get Non-Existing Inspection",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 404\", function () {",
+                  "    pm.response.to.have.status(404);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/inspectionforms/999999",
+              "host": ["{{baseUrl}}"],
+              "path": ["inspectionforms", "999999"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Non-Existing Inspection",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 404\", function () {",
+                  "    pm.response.to.have.status(404);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"jobNumber\": \"JOB-UPDATED-001\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/inspectionforms/999999",
+              "host": ["{{baseUrl}}"],
+              "path": ["inspectionforms", "999999"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Analyze Non-Existing Inspection",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 404\", function () {",
+                  "    pm.response.to.have.status(404);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/inspectionforms/999999/analyze",
+              "host": ["{{baseUrl}}"],
+              "path": ["inspectionforms", "999999", "analyze"]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}
